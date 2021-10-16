@@ -4,9 +4,14 @@ import {
   StatusBar,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
+import SplashScreen from  'react-native-splash-screen';
 
 const App = () => {
   const onMessage = (data: any) => { }
+
+  React.useEffect(() => {
+    SplashScreen.hide();
+  });
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
