@@ -1,4 +1,4 @@
-package com.wildwood;
+package com.wildwoodonline;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
