@@ -3,12 +3,13 @@ import {
   BackHandler,
   SafeAreaView,
   StatusBar,
+  View,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
-  const onMessage = (data: any) => { }
+  const onMessage = (data: any) => {}
   const webview = React.useRef<WebView>(null);
 
   React.useEffect(() => {
@@ -32,8 +33,8 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar hidden />
+    <View style={{ flex: 1 }}>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <WebView source={{ uri: 'https://wiildwood.online/events' }}
         geolocationEnabled={true}
         onMessage={onMessage}
@@ -43,8 +44,8 @@ const App = () => {
         allowsBackForwardNavigationGestures={true}
         ref={webview}
       />
-    </SafeAreaView>
+    </View>
   );
-}
+};
 
 export default App;
