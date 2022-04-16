@@ -43,6 +43,7 @@ const App = () => {
         userAgent={"Chrome/56.0.0.0 Mobile"}
         allowsBackForwardNavigationGestures={true}
         ref={webview}
+        scrollEnabled={false}
       />
     </View>
   );
