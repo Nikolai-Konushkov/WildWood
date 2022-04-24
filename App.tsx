@@ -47,7 +47,7 @@ const App = () => {
 
 export default App;
 
-// // @flow
+// @flow
 // import React, {Component} from 'react';
 // import {StyleSheet, Text, View, Alert, Button, Image} from 'react-native';
 // import {
@@ -86,6 +86,8 @@ export default App;
 //   _configureGoogleSignIn() {
 //     GoogleSignin.configure({
 //       webClientId:
+//         '211416878264-uui79jrkai5douru5e9pf4jp4he90r8c.apps.googleusercontent.com',
+//       iosClientId:
 //         '211416878264-kqot5bp6q1vr9kouidnuln4ljkit9nnm.apps.googleusercontent.com',
 //       offlineAccess: false,
 //       profileImageSize: PROFILE_IMAGE_SIZE,
