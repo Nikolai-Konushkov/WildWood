@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "211416878264",
+    "project_id": "wildwood-327811",
+    "storage_bucket": "wildwood-327811.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211416878264:android:3a3dff8640af98ac1d384d",
+        "android_client_info": {
+          "package_name": "com.wildwoodonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211416878264-ogvr28taacpmfqnm91oskla3kouipskl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wildwoodonline",
+            "certificate_hash": "55600ba7a18372b990134e7cd9df1b723dcac7c6"
+          }
+        },
+        {
+          "client_id": "211416878264-p7msnt7204sn02s8f2gsqbtb4a2ne2ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7kUfRr_1GNFz7b4fravtefd73zh5fpSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211416878264-p7msnt7204sn02s8f2gsqbtb4a2ne2ma.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "211416878264-kqot5bp6q1vr9kouidnuln4ljkit9nnm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wildwoodteam.wildwood",
+                "app_store_id": "1604410665"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
