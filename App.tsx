@@ -1,11 +1,20 @@
 import React from 'react';
-import {BackHandler, SafeAreaView, StatusBar} from 'react-native';
+import {
+  BackHandler,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  View,
+} from 'react-native';
 import {WebView} from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
 import shareContent from './Feature/Sharing';
 import {styles} from './Style';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const App = () => {
+  const [isLoad, setIsLoad] = React.useState<boolean>(false);
   const webview = React.useRef<WebView>(null);
 
   React.useEffect(() => {
@@ -15,6 +24,7 @@ const App = () => {
   const wwMode = () => {
     if (webview.current) {
       webview.current.injectJavaScript('window.setWebViewMode()');
+      setIsLoad(true);
       return true;
     }
   };
@@ -69,24 +79,32 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={styles.flex}>
-      <StatusBar
-        backgroundColor="#fff"
-        barStyle="dark-content"
-        animated={true}
-      />
-      <WebView
-        source={{uri: 'https://wiildwood.online/events'}}
-        geolocationEnabled={true}
-        onMessage={messageHandler}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        userAgent={'Chrome/56.0.0.0 Mobile'}
-        allowsBackForwardNavigationGestures={true}
-        ref={webview}
-        scrollEnabled={false}
-      />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {!isLoad && (
+        <View style={styles.loader}>
+          <Image
+            style={styles.logo}
+            source={require('./src/ic_launcher.png')}
+          />
+        </View>
+      )}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.flex}>
+        <WebView
+          source={{uri: 'https://wiildwood.online/events'}}
+          geolocationEnabled={true}
+          onMessage={messageHandler}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          userAgent={'Chrome/56.0.0.0 Mobile'}
+          allowsBackForwardNavigationGestures={true}
+          ref={webview}
+          scrollEnabled={false}
+        />
+      </KeyboardAvoidingView>
+    </SafeAreaProvider>
   );
 };
 
