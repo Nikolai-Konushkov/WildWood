@@ -42,6 +42,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = WildWood/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ABFE59519B596E51CEFDCCC0 /* libPods-WildWood-WildWoodTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WildWood-WildWoodTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A881CF5CF3F2B244570E2A /* Pods-WildWood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildWood.debug.xcconfig"; path = "Target Support Files/Pods-WildWood/Pods-WildWood.debug.xcconfig"; sourceTree = "<group>"; };
+		CE290EF5283694FA009A048C /* WildWood.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = WildWood.entitlements; path = WildWood/WildWood.entitlements; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-WildWood.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildWood.release.xcconfig"; path = "Target Support Files/Pods-WildWood/Pods-WildWood.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -86,6 +87,7 @@
 		13B07FAE1A68108700A75B9A /* WildWood */ = {
 			isa = PBXGroup;
 			children = (
+				CE290EF5283694FA009A048C /* WildWood.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -494,9 +496,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = WildWood/WildWood.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GHZZ4APS57;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = WildWood/Info.plist;
@@ -525,9 +528,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = WildWood/WildWood.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GHZZ4APS57;
 				INFOPLIST_FILE = WildWood/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

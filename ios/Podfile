@@ -6,6 +6,8 @@ platform :ios, '13.0'
 target 'WildWood' do
   config = use_native_modules!
 
+  pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods

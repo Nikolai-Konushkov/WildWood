@@ -30,6 +30,16 @@
 				<string>com.googleusercontent.apps.211416878264-kqot5bp6q1vr9kouidnuln4ljkit9nnm</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.wildwoodteam.wildwood</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wiildwood</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
