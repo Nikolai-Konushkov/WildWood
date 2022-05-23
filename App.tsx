@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   BackHandler,
   Image,
@@ -6,6 +6,8 @@ import {
   Platform,
   StatusBar,
   View,
+  Linking,
+  Text,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
@@ -78,6 +80,23 @@ const App = () => {
     }
   };
 
+  const [url, setUrl] = React.useState<string>(
+    'https://wiildwood.online/events',
+  );
+
+  useEffect(() => {
+    const getUrl = async () => {
+      Linking.addEventListener('url', event => {
+        console.warn('URL', event.url);
+        setUrl(event.url);
+      });
+      Linking.getInitialURL().then(url => {
+        console.warn('INITIAL', url);
+      });
+    };
+    getUrl();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
@@ -92,8 +111,9 @@ const App = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.flex}>
+        <Text>{url}</Text>
         <WebView
-          source={{uri: 'https://wiildwood.online/events'}}
+          source={{uri: url}}
           geolocationEnabled={true}
           onMessage={messageHandler}
           javaScriptEnabled={true}
