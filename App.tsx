@@ -7,7 +7,6 @@ import {
   StatusBar,
   View,
   Linking,
-  Text,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
@@ -80,18 +79,17 @@ const App = () => {
     }
   };
 
-  const [url, setUrl] = React.useState<string>(
-    'https://wiildwood.online/events',
-  );
-
+  // Linking
+  const [url, setUrl] = React.useState<string>('');
   useEffect(() => {
     const getUrl = async () => {
       Linking.addEventListener('url', event => {
-        console.warn('URL', event.url);
+        // console.warn('URL', event.url);
         setUrl(event.url);
       });
       Linking.getInitialURL().then(url => {
-        console.warn('INITIAL', url);
+        // console.warn('INITIAL', url);
+        setUrl(url === null ? 'https://wiildwood.online/events' : url);
       });
     };
     getUrl();
@@ -111,7 +109,6 @@ const App = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.flex}>
-        <Text>{url}</Text>
         <WebView
           source={{uri: url}}
           geolocationEnabled={true}
