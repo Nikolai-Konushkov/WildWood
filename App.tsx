@@ -13,6 +13,7 @@ import SplashScreen from 'react-native-splash-screen';
 import shareContent from './Feature/Sharing';
 import {styles} from './Style';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import DeviceInfo from 'react-native-device-info';
 
 const App = () => {
   const [isLoad, setIsLoad] = React.useState<boolean>(false);
@@ -24,7 +25,7 @@ const App = () => {
 
   const wwMode = () => {
     if (webview.current) {
-      webview.current.injectJavaScript('window.setWebViewMode()');
+      webview.current.injectJavaScript('window.setWebViewMode();');
       setIsLoad(true);
       return true;
     }
@@ -45,6 +46,19 @@ const App = () => {
     return () => backHandler.remove();
   }, []);
 
+  const deviceId = DeviceInfo.getDeviceToken();
+  const platform = 'android';
+
+  // Set Device
+  let setDevice = () => {
+    if (webview.current) {
+      webview.current.injectJavaScript(
+        `window.setDevice({token: "${deviceId}", platform: "${platform}"})`,
+      );
+      return true;
+    }
+  };
+
   // User Info
   let saveUser = params => {
     console.log(params);
@@ -59,7 +73,6 @@ const App = () => {
       switch (message.method) {
         case 'ready':
           wwMode();
-          // this.webview.injectJavaScript('window.setWebViewMode()');
           break;
         case 'googleLogin':
           googleLogin();
@@ -72,6 +85,7 @@ const App = () => {
           break;
         case 'saveUser':
           saveUser(message.params);
+          setDevice();
           break;
       }
     } catch (err) {
