@@ -14,6 +14,8 @@ target 'WildWood' do
     :hermes_enabled => false
   )
 
+  pod 'RNGoogleSignin', :path => '../node_modules/@react-native-google-signin/google-signin'
+
   target 'WildWoodTests' do
     inherit! :complete
     # Pods for testing
