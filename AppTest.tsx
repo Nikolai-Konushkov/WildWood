@@ -1,5 +1,4 @@
 /*This is th Example of google Sign in*/
-import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Alert} from 'react-native';
 import {
   GoogleSignin,
