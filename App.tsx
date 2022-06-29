@@ -8,17 +8,15 @@ import {
   View,
   Linking,
   Alert,
-  Button,
   DeviceEventEmitter,
+  Button,
   Text,
-  ScrollView,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
 import shareContent from './Feature/Sharing';
 import {styles} from './Style';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import DeviceInfo from 'react-native-device-info';
 import {
   GoogleSignin,
   statusCodes,
@@ -56,118 +54,11 @@ const App = () => {
     return () => backHandler.remove();
   }, []);
 
-  const deviceId = DeviceInfo.getDeviceToken();
-  const platform = 'android';
-
-  // Set Device
-  let setDevice = () => {
-    if (webview.current) {
-      webview.current.injectJavaScript(
-        `window.setDevice({token: "${deviceId}", platform: "${platform}"})`,
-      );
-      return true;
-    }
-  };
-
-  // User Info
-  let saveUser = params => {
-    console.log(params);
-  };
-
-  const _signIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices({
-        //Check if device has Google Play Services installed.
-        //Always resolves to true on iOS.
-        showPlayServicesUpdateDialog: true,
-      });
-      const userInfo = await GoogleSignin.signIn();
-      console.log('User Info --> ', userInfo);
-      // setState({userInfo: userInfo});
-
-      if (webview.current) {
-        webview.current.injectJavaScript(
-          `window.rnLoginGoogle({accessToken: "${userInfo.serverAuthCode}", idToken: "${userInfo.idToken}"})`,
-        );
-        return true;
-      }
-    } catch (error) {
-      console.log('Message', error.message);
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('User Cancelled the Login Flow');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log('Signing In');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('Play Services Not Available or Outdated');
-      } else {
-        console.log('Some Other Error Happened');
-      }
-    }
-  };
-
-  const googleLogin = () => {
-    GoogleSignin.configure({
-      //It is mandatory to call this method before attempting to call signIn()
-      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      offlineAccess: false,
-      // Repleace with your webClientId generated from Firebase console
-      iosClientId:
-        '211416878264-kqot5bp6q1vr9kouidnuln4ljkit9nnm.apps.googleusercontent.com',
-      webClientId:
-        '211416878264-p7msnt7204sn02s8f2gsqbtb4a2ne2ma.apps.googleusercontent.com',
-    });
-
-    _signIn();
-  };
-
-  // Main Handler
-  let messageHandler = event => {
-    let message;
-    try {
-      message = JSON.parse(event.nativeEvent.data);
-      console.log(message);
-      switch (message.method) {
-        case 'ready':
-          wwMode();
-          break;
-        case 'googleLogin':
-          googleLogin();
-          break;
-        case 'yandexLogin':
-          yandexLogin();
-          break;
-        case 'share':
-          shareContent(message.params);
-          break;
-        case 'saveUser':
-          saveUser(message.params);
-          setDevice();
-          break;
-      }
-    } catch (err) {
-      console.log('error', err);
-    }
-  };
-
-  // Linking
-  const [url, setUrl] = React.useState<string>('');
-  useEffect(() => {
-    const getUrl = async () => {
-      Linking.addEventListener('url', event => {
-        // console.warn('URL', event.url);
-        setUrl(event.url);
-      });
-      Linking.getInitialURL().then(url => {
-        // console.warn('INITIAL', url);
-        setUrl(url === null ? 'https://wiildwood.online/events' : url);
-      });
-    };
-    getUrl();
-  }, []);
+  // PUSH
 
   const [permissions, setPermissions] = useState({});
 
-  useEffect(() => {
+  const pushInit = () => {
     PushNotificationIOS.addEventListener('register', onRegistered);
     PushNotificationIOS.addEventListener(
       'registrationError',
@@ -200,7 +91,7 @@ const App = () => {
       PushNotificationIOS.removeEventListener('localNotification');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   const sendNotification = () => {
     DeviceEventEmitter.emit('remoteNotificationReceived', {
@@ -369,12 +260,12 @@ const App = () => {
   };
 
   const onRegistered = deviceToken => {
-    Alert.alert('Registered For Remote Push', `Device Token: ${deviceToken}`, [
-      {
-        text: 'Dismiss',
-        onPress: null,
-      },
-    ]);
+    if (webview.current) {
+      webview.current.injectJavaScript(
+        `window.setDevice({token: "${deviceToken}", platform: "${Platform.OS}"})`,
+      );
+      return true;
+    }
   };
 
   const onRegistrationError = error => {
@@ -449,75 +340,170 @@ const App = () => {
     });
   };
 
+  // PUSH END
+
+  // Set Device
+  let setDevice = () => {
+    pushInit();
+  };
+
+  // User Info
+  let saveUser = params => {
+    console.log(params);
+  };
+
+  const _signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices({
+        //Check if device has Google Play Services installed.
+        //Always resolves to true on iOS.
+        showPlayServicesUpdateDialog: true,
+      });
+      const userInfo = await GoogleSignin.signIn();
+      console.log('User Info --> ', userInfo);
+      // setState({userInfo: userInfo});
+
+      if (webview.current) {
+        webview.current.injectJavaScript(
+          `window.rnLoginGoogle({accessToken: "${userInfo.serverAuthCode}", idToken: "${userInfo.idToken}"})`,
+        );
+        return true;
+      }
+    } catch (error) {
+      console.log('Message', error.message);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User Cancelled the Login Flow');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Signing In');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play Services Not Available or Outdated');
+      } else {
+        console.log('Some Other Error Happened');
+      }
+    }
+  };
+
+  const googleLogin = () => {
+    GoogleSignin.configure({
+      //It is mandatory to call this method before attempting to call signIn()
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      offlineAccess: false,
+      // Repleace with your webClientId generated from Firebase console
+      iosClientId:
+        '211416878264-kqot5bp6q1vr9kouidnuln4ljkit9nnm.apps.googleusercontent.com',
+      webClientId:
+        '211416878264-p7msnt7204sn02s8f2gsqbtb4a2ne2ma.apps.googleusercontent.com',
+    });
+
+    _signIn();
+  };
+
+  // Main Handler
+  let messageHandler = event => {
+    let message;
+    try {
+      message = JSON.parse(event.nativeEvent.data);
+      console.log(message);
+      switch (message.method) {
+        case 'ready':
+          wwMode();
+          setDevice();
+          break;
+        case 'googleLogin':
+          googleLogin();
+          break;
+        case 'yandexLogin':
+          yandexLogin();
+          break;
+        case 'share':
+          shareContent(message.params);
+          break;
+        case 'saveUser':
+          saveUser(message.params);
+          break;
+      }
+    } catch (err) {
+      console.log('error', err);
+    }
+  };
+
+  // Linking
+  const [url, setUrl] = React.useState<string>('');
+  useEffect(() => {
+    const getUrl = async () => {
+      Linking.addEventListener('url', event => {
+        // console.warn('URL', event.url);
+        setUrl(event.url);
+      });
+      Linking.getInitialURL().then(url => {
+        // console.warn('INITIAL', url);
+        setUrl(url === null ? 'https://wiildwood.online/events' : url);
+      });
+    };
+    getUrl();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <View style={{padding: 20}}>
-        <ScrollView
-          style={{backgroundColor: '#fff', marginTop: 50, height: 200}}>
-          <Button onPress={sendNotification} title="Send fake notification" />
-          <Button
-            onPress={sendLocalNotification}
-            title="Send fake local notification"
-          />
-          <Button
-            onPress={sendLocalNotificationWithSound}
-            title="Send fake local notification with custom sound"
-          />
-          <Button
-            onPress={scheduleLocalNotification}
-            title="Schedule fake local notification"
-          />
-          <Button
-            onPress={addNotificationRequest}
-            title="Add Notification Request"
-          />
-          <Button
-            onPress={addCriticalNotificationRequest}
-            title="Add Critical Notification Request (only works with Critical Notification entitlement)"
-          />
-          <Button
-            onPress={addMultipleRequests}
-            title="Add Multiple Notification Requests"
-          />
-          <Button
-            onPress={setNotificationCategories}
-            title="Set notification categories"
-          />
-          <Button
-            onPress={removePendingNotificationRequests}
-            title="Remove Partial Pending Notification Requests"
-          />
-          <Button
-            onPress={removeAllPendingNotificationRequests}
-            title="Remove All Pending Notification Requests"
-          />
-          <Button
-            onPress={sendSilentNotification}
-            title="Send fake silent notification"
-          />
+        <Button onPress={sendNotification} title="Send fake notification" />
+        <Button
+          onPress={sendLocalNotification}
+          title="Send fake local notification"
+        />
+        <Button
+          onPress={sendLocalNotificationWithSound}
+          title="Send fake local notification with custom sound"
+        />
+        <Button
+          onPress={scheduleLocalNotification}
+          title="Schedule fake local notification"
+        />
+        <Button
+          onPress={addNotificationRequest}
+          title="Add Notification Request"
+        />
+        <Button
+          onPress={addCriticalNotificationRequest}
+          title="Add Critical Notification Request (only works with Critical Notification entitlement)"
+        />
+        <Button
+          onPress={addMultipleRequests}
+          title="Add Multiple Notification Requests"
+        />
+        <Button
+          onPress={setNotificationCategories}
+          title="Set notification categories"
+        />
+        <Button
+          onPress={removePendingNotificationRequests}
+          title="Remove Partial Pending Notification Requests"
+        />
+        <Button
+          onPress={removeAllPendingNotificationRequests}
+          title="Remove All Pending Notification Requests"
+        />
+        <Button
+          onPress={sendSilentNotification}
+          title="Send fake silent notification"
+        />
 
-          <Button
-            onPress={() =>
-              PushNotificationIOS.setApplicationIconBadgeNumber(42)
-            }
-            title="Set app's icon badge to 42"
-          />
-          <Button
-            onPress={() => PushNotificationIOS.setApplicationIconBadgeNumber(0)}
-            title="Clear app's icon badge"
-          />
-          <Button
-            onPress={getPendingNotificationRequests}
-            title="Get Pending Notification Requests"
-          />
-          <View>
-            <Button
-              onPress={showPermissions}
-              title="Show enabled permissions"
-            />
-            <Text>{JSON.stringify(permissions)}</Text>
-          </View>
-        </ScrollView>
+        <Button
+          onPress={() => PushNotificationIOS.setApplicationIconBadgeNumber(42)}
+          title="Set app's icon badge to 42"
+        />
+        <Button
+          onPress={() => PushNotificationIOS.setApplicationIconBadgeNumber(0)}
+          title="Clear app's icon badge"
+        />
+        <Button
+          onPress={getPendingNotificationRequests}
+          title="Get Pending Notification Requests"
+        />
+        <View>
+          <Button onPress={showPermissions} title="Show enabled permissions" />
+          <Text>{JSON.stringify(permissions)}</Text>
+        </View>
       </View>
 
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
