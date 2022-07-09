@@ -365,8 +365,6 @@ PODS:
     - React-perflogger (= 0.66.0)
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNDeviceInfo (8.7.1):
-    - React-Core
   - RNGoogleSignin (7.2.2):
     - GoogleSignIn (~> 6.1.0)
     - React-Core
@@ -434,7 +432,6 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
-  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNShare (from `../node_modules/react-native-share`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -529,8 +526,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
-  RNDeviceInfo:
-    :path: "../node_modules/react-native-device-info"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNShare:
@@ -590,7 +585,6 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 4bb657a97aa74568d9ed634c8bd478299bb8a3a6
   ReactCommon: eb059748e842a1a86025ebbd4ac9d99e74492f88
   RNCPushNotificationIOS: 089da3b657e1e3d464f38195fd2e3069608ef5af
-  RNDeviceInfo: af47a7d1a09d64c8cbb8b0c883db9bca422a9813
   RNGoogleSignin: 7580e6618798be9d090524bb31538378f92ce746
   RNShare: 2e8e9dadea058057642a9351ca2878867ad4ad5c
   Yoga: c11abbf5809216c91fcd62f5571078b83d9b6720
