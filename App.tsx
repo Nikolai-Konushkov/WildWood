@@ -7,6 +7,7 @@ import {
   StatusBar,
   View,
   Linking,
+  AppState,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
@@ -152,6 +153,14 @@ const App = () => {
     };
     getUrl();
   }, []);
+
+  AppState.addEventListener('change', state => {
+    console.log('AppState changed to', state);
+    if (webview.current) {
+      webview.current.injectJavaScript('window.backToApp()');
+      return true;
+    }
+  });
 
   return (
     <SafeAreaProvider>
