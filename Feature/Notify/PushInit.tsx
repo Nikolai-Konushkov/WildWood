@@ -36,7 +36,7 @@ const pushInit = (webview: any) => {
     const isClicked = notification.getData().userInteraction === 1;
 
     const result = `
-        Titl1e:  ${notification.getTitle()};\n
+        Title:  ${notification.getTitle()};\n
         Subtitle:  ${notification.getSubtitle()};\n
         Message: ${notification.getMessage()};\n
         badge: ${notification.getBadgeCount()};\n
@@ -44,7 +44,7 @@ const pushInit = (webview: any) => {
         category: ${notification.getCategory()};\n
         content-available: ${notification.getContentAvailable()};\n
         Notification is clicked: ${String(isClicked)};\n
-        Notification is clicked gggg: ${notification.getActionIdentifier()};.`;
+        Notification is clicked : ${notification.getActionIdentifier()};.`;
 
     if (notification.getTitle() == undefined) {
       Alert.alert('Silent push notification Received', result, [
@@ -68,7 +68,7 @@ const pushInit = (webview: any) => {
 
     Alert.alert(
       'Local Notification Received',
-      `Alert ti2tle:  ${notification.getTitle()},
+      `Alert title:  ${notification.getTitle()},
         Alert subtitle:  ${notification.getSubtitle()},
         Alert message:  ${notification.getMessage()},
         Badge: ${notification.getBadgeCount()},
@@ -76,7 +76,7 @@ const pushInit = (webview: any) => {
         Thread Id:  ${notification.getThreadID()},
         Action Id:  ${notification.getActionIdentifier()},
         User Text:  ${notification.getUserText()},
-        Notific11ation is clicked: ${String(isClicked)}.`,
+        Notification is clicked: ${String(isClicked)}.`,
       [
         {
           text: 'Dismiss',
