@@ -60,6 +60,8 @@
 	<string>Это нужно, чтобы вы могли загружать фотографии для создаваемого вами контента.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Это нужно для корректной работы карт в приложении.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Это нужно для корректной работы карт в приложении.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Это нужно, чтобы вы могли загружать фотографии для создаваемого вами контента.</string>
 	<key>UIBackgroundModes</key>

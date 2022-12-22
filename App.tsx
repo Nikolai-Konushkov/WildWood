@@ -18,7 +18,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import pushInit from './Feature/Notify/PushInit';
+import NotifService from './Feature/Push/NotifService';
 
 const App = () => {
   const [isLoad, setIsLoad] = React.useState<boolean>(false);
@@ -51,9 +51,64 @@ const App = () => {
     return () => backHandler.remove();
   }, []);
 
+  // Linking
+  const [url, setUrl] = React.useState<string>('');
+  useEffect(() => {
+    const getUrl = async () => {
+      Linking.addEventListener('url', event => {
+        // console.warn('URL', event.url);
+        setUrl(event.url);
+      });
+      Linking.getInitialURL().then(url => {
+        // console.warn('INITIAL', url);
+        setUrl(url === null ? 'https://wiildwood.online/events' : url);
+      });
+    };
+    getUrl();
+  }, []);
+
+  AppState.addEventListener('change', state => {
+    console.log('AppState changed to', state);
+    if (webview.current) {
+      webview.current.injectJavaScript('window.backToApp()');
+      return true;
+    }
+  });
+
+  const [token, setToken] = React.useState();
+
+  const onRegister = token => {
+    setToken(token.token);
+  };
+
+  const onNotif = notif => {
+    const pushLink = JSON.stringify(notif.data.link).replace(/^"(.*)"$/, '$1');
+    setUrl(pushLink);
+    Linking.getInitialURL().then(() => {
+      setUrl(`'${pushLink}'`);
+    });
+  };
+
+  const notif = new NotifService(onRegister, onNotif);
+
   // Set Device
   let setDevice = () => {
-    pushInit(webview);
+    if (webview.current) {
+      webview.current.injectJavaScript(
+        `window.setDevice({token: "${token}", platform: "${Platform.OS}"})`,
+      );
+      return true;
+    }
+  };
+
+  // Delete Device
+  let deleteDevice = () => {
+    if (webview.current) {
+      webview.current.injectJavaScript(
+        `window.deleteDevice({device: {token: "${token}", platform: "${Platform.OS}"}})`,
+      );
+      return true;
+    }
   };
 
   // User Info
@@ -132,35 +187,14 @@ const App = () => {
         case 'saveUser':
           saveUser(message.params);
           break;
+        case 'logout':
+          deleteDevice();
+          break;
       }
     } catch (err) {
       console.log('error', err);
     }
   };
-
-  // Linking
-  const [url, setUrl] = React.useState<string>('');
-  useEffect(() => {
-    const getUrl = async () => {
-      Linking.addEventListener('url', event => {
-        // console.warn('URL', event.url);
-        setUrl(event.url);
-      });
-      Linking.getInitialURL().then(url => {
-        // console.warn('INITIAL', url);
-        setUrl(url === null ? 'https://wiildwood.online/events' : url);
-      });
-    };
-    getUrl();
-  }, []);
-
-  AppState.addEventListener('change', state => {
-    console.log('AppState changed to', state);
-    if (webview.current) {
-      webview.current.injectJavaScript('window.backToApp()');
-      return true;
-    }
-  });
 
   return (
     <SafeAreaProvider>
